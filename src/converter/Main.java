@@ -6,38 +6,38 @@ import java.util.Scanner;
 public class Main {
 	
 	public static void main(String[] args) {
-		try {
-			Optional<? extends Executer> opt = null;
-			
-			if ((opt = BytesToString.getOperation(args[0])).isPresent()) {
-				bytesToString((BytesToString) opt.get(), args);
-			} else if ((opt = StringToBytes.getOperation(args[0])).isPresent()) {
-				stringToBytes((StringToBytes) opt.get(), args);
-			} else if (args[0].equalsIgnoreCase("MorseCodeEncode")) {
-				if (args.length >= 2)
-					System.out.println(Converters.encodeMorseCode(Converters.encodeMorseCode(args[1])));
-				else
-					System.out.println(Converters.encodeMorseCode(getInput("请输入神秘代码：")));
-			} else if (args[0].equalsIgnoreCase("MorseCodeDecode")) {
-				if (args.length >= 2)
-					System.out.println(Converters.encodeMorseCode(Converters.decodeMorseCode(args[1])));
-				else
-					System.out.println(Converters.encodeMorseCode(getInput("请输入神秘代码：")));
-			} else if (args[0].equals("/?") || args[0].equalsIgnoreCase("--help")) {
-				printHelp();
-			} else {
-				System.err.println("命令语法不正确");
-				System.err.println("请使用参数 /? 以查看帮助");
-				System.exit(1);
-			}
-		} catch(ArrayIndexOutOfBoundsException e) {
-			System.err.println("命令语法不正确");
-			System.err.println("请使用参数 /? 以查看帮助");
-			System.exit(1);
-		} catch(IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-			System.exit(1);
-		}
+//		try {
+//			Optional<? extends Executer> opt = null;
+//			
+//			if ((opt = BytesToString.getOperation(args[0])).isPresent()) {
+//				bytesToString((BytesToString) opt.get(), args);
+//			} else if ((opt = StringToBytes.getOperation(args[0])).isPresent()) {
+//				stringToBytes((StringToBytes) opt.get(), args);
+//			} else if (args[0].equalsIgnoreCase("MorseCodeEncode")) {
+//				if (args.length >= 2)
+//					System.out.println(Converters.encodeMorseCode(Converters.encodeMorseCode(args[1])));
+//				else
+//					System.out.println(Converters.encodeMorseCode(getInput("请输入神秘代码：")));
+//			} else if (args[0].equalsIgnoreCase("MorseCodeDecode")) {
+//				if (args.length >= 2)
+//					System.out.println(Converters.encodeMorseCode(Converters.decodeMorseCode(args[1])));
+//				else
+//					System.out.println(Converters.encodeMorseCode(getInput("请输入神秘代码：")));
+//			} else if (args[0].equals("/?") || args[0].equalsIgnoreCase("--help")) {
+//				printHelp();
+//			} else {
+//				System.err.println("命令语法不正确");
+//				System.err.println("请使用参数 /? 以查看帮助");
+//				System.exit(1);
+//			}
+//		} catch(ArrayIndexOutOfBoundsException e) {
+//			System.err.println("命令语法不正确");
+//			System.err.println("请使用参数 /? 以查看帮助");
+//			System.exit(1);
+//		} catch(IllegalArgumentException e) {
+//			System.err.println(e.getMessage());
+//			System.exit(1);
+//		}
 	}
 	
 	private static void printHelp() {
@@ -66,45 +66,7 @@ public class Main {
 		System.out.println("  content      -相应的数据，如果无此参数则要求输入。");
 	}
 
-	private static void bytesToString(BytesToString executer, String[] args) {
-		int index = 1;
-		
-		if (args.length >= 2)
-			if (args[1].equals("-encoding")){
-				executer.setEncoding(args[2]);
-				index += 2;
-			}
-		
-		if (args.length == index)
-			executer.execute(getInput("请输入需要转换的数据："));
-		else if (args.length == index + 1)
-			executer.execute(args[index]);
-		else {
-			System.err.println("命令语法不正确");
-			System.exit(1);
-		}
-	}
-
-	private static void stringToBytes(StringToBytes executer, String[] args) {
-		int index = 1;
-		
-		if (args.length >= 2)
-			if (args[1].equals("-encoding")){
-				executer.setEncoding(args[2]);
-				index += 2;
-			}
-		
-		if (args.length == index)
-			executer.execute(getInput("请输入神秘代码："));
-		else if (args.length == index + 1)
-			executer.execute(args[index]);
-		else {
-			System.err.println("命令语法不正确");
-			System.exit(1);
-		}
-	}
-
-	private static String getInput(String prompt) {
+	public static String getInput(String prompt) {
 		System.out.print(prompt);
 		Scanner sc = new Scanner(System.in);
 		String str = sc.nextLine();

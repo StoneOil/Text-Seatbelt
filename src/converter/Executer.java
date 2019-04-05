@@ -1,6 +1,6 @@
 package converter;
 
-public interface Executer {
+public interface Executer<T, R> {
 	
-	public void execute(String str);
+	public R execute(T t);
 }
