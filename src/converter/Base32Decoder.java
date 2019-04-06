@@ -1,11 +1,10 @@
-package converter.decoder;
+package converter;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import converter.decoder.Base64Decoder.Executer;
 import converter.text.StringToBytes;
 
 public class Base32Decoder extends StringToBytes {

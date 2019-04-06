@@ -1,10 +1,8 @@
-package converter.encoder;
+package converter;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import converter.encoder.Base64Encoder.Executer;
-import converter.text.Builder1;
 import converter.text.BytesToString;
 
 public class Base32Encoder extends BytesToString {
@@ -67,16 +65,6 @@ public class Base32Encoder extends BytesToString {
 		writer.append(chars[((cache[3] & 3) << 3) | ((cache[4] & 255) >>> 5)]);
 		writer.append(chars[cache[4] & 31]);
 		count = 0;
-	}
-	
-	public static class Builder implements Builder1 {
-		public static final Builder INSTANCE = new Builder(); 
-
-		@Override
-		public BytesToString build(Writer writer) {
-			return new Base32Encoder(writer);
-		}
-		
 	}
 	
 	public static class Executer extends BytesToString.Executer {

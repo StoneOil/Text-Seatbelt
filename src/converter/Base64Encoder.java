@@ -1,4 +1,4 @@
-package converter.encoder;
+package converter;
 
 import java.io.IOException;
 import java.io.Writer;
