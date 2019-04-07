@@ -22,7 +22,15 @@ public class HexDecoder extends StringToBytes {
 
 	@Override
 	public void close() throws IOException {
+		flush();
 		out.close();
+	}
+	
+	@Override
+	public void flush() throws IOException {
+		if (theLast != -1)
+			throw new IllegalArgumentException("参数不是正确的十六进制字符串");
+		out.flush();
 	}
 
 	@Override

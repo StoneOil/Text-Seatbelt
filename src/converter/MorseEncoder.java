@@ -39,5 +39,19 @@ public class MorseEncoder extends StringToString {
 	public void close() throws IOException {
 		writer.close();
 	}
+	
+	@Override
+	public void flush() throws IOException {
+		writer.flush();
+	}
 
+	public static class Executer extends StringToString.Executer {
+		
+		public static final Executer INSTANCE = new Executer();
+
+		@Override
+		public StringToString getInstance(Writer writer) {
+			return new MorseEncoder(writer);
+		}
+	}
 }

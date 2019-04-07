@@ -31,7 +31,7 @@ public class Base32Encoder extends BytesToString {
 	}
 	
 	@Override
-	public void close() throws IOException {
+	public void flush() throws IOException {
 		if (count != 0) {
 			for (int i = count; i < 5; i++)
 				cache[i] = 0;
@@ -52,6 +52,14 @@ public class Base32Encoder extends BytesToString {
 			writer.append('=');
 		}
 		
+		count = 0;
+		
+		writer.flush();
+	}
+	
+	@Override
+	public void close() throws IOException {
+		flush();
 		writer.close();
 	}
 	

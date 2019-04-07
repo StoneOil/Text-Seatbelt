@@ -49,10 +49,15 @@ public class Base32Decoder extends StringToBytes {
 
 	@Override
 	public void close() throws IOException {
-		if (count != 0)
-			throw new IllegalArgumentException("参数不是正确的base64编码");
-		
+		flush();
 		out.close();
+	}
+	
+	@Override
+	public void flush() throws IOException {
+		if (count != 0)
+			throw new IllegalArgumentException("参数不是正确的base32编码");
+		out.flush();
 	}
 	
 	public void parse() throws IOException {
@@ -112,7 +117,7 @@ public class Base32Decoder extends StringToBytes {
 
 		@Override
 		public StringToBytes getInstance(OutputStream out) {
-			return new Base64Decoder(out);
+			return new Base32Decoder(out);
 		}
 	}
 }

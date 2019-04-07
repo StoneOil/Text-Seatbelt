@@ -17,10 +17,15 @@ public class BinDecoder extends StringToBytes {
 
 	@Override
 	public void close() throws IOException {
+		flush();
+		out.close();
+	}
+
+	@Override
+	public void flush() throws IOException {
 		if (count != 0)
 			throw new IllegalArgumentException("参数不是正确的二进制字符串");
-		
-		out.close();
+		out.flush();
 	}
 
 	@Override

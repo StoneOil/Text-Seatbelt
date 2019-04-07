@@ -11,6 +11,10 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
+import converter.Base32Decoder;
+import converter.Base64Decoder;
+import converter.BinDecoder;
+import converter.HexDecoder;
 import converter.Main;
 import converter.command.Arguments;
 import converter.command.Command;
@@ -97,7 +101,8 @@ public abstract class StringToBytes extends Writer {
 				reader.close();
 			}
 			
-			ins.close();
+			ins.flush();
+			System.out.println();
 		}
 	}
 
@@ -106,7 +111,19 @@ public abstract class StringToBytes extends Writer {
 	public StringToBytes(OutputStream out) {
 		this.out = out;
 	}
-	
+
+	public static Executer getExecuter(String name) {
+		if (name.equalsIgnoreCase("b64d"))
+			return Base64Decoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("b32d"))
+			return Base32Decoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("hexd"))
+			return HexDecoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("bind"))
+			return BinDecoder.Executer.INSTANCE;
+		return null;
+	}
+
 	@Override
 	public void flush() throws IOException {
 		out.flush();

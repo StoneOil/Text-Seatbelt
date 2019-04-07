@@ -9,6 +9,10 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
+import converter.Base32Encoder;
+import converter.Base64Encoder;
+import converter.BinEncoder;
+import converter.HexEncoder;
 import converter.Main;
 import converter.command.Arguments;
 import converter.command.Command;
@@ -61,8 +65,6 @@ public abstract class BytesToString extends OutputStream {
 				else {
 					ins.write(content.getBytes(a.getFlag("-e").getValues()[0]));
 				}
-				
-				ins.close();
 			}
 			else {
 				FileInputStream in = new FileInputStream(
@@ -74,7 +76,6 @@ public abstract class BytesToString extends OutputStream {
 						ins.write(i);
 					}
 					in.close();
-					ins.close();
 				}
 				else {
 					Reader reader = new InputStreamReader(in);
@@ -86,9 +87,12 @@ public abstract class BytesToString extends OutputStream {
 					}
 					
 					reader.close();
-					writer.close();
+					writer.flush();
 				}
 			}
+			
+			ins.flush();
+			System.out.println();
 		}
 	}
 	
@@ -96,6 +100,18 @@ public abstract class BytesToString extends OutputStream {
 	
 	public BytesToString(Writer writer) {
 		this.writer = writer;
+	}
+
+	public static Executer getExecuter(String name) {
+		if (name.equalsIgnoreCase("b64e"))
+			return Base64Encoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("b32e"))
+			return Base32Encoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("hexe"))
+			return HexEncoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("bine"))
+			return BinEncoder.Executer.INSTANCE;
+		return null;
 	}
 	
 	@Override

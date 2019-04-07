@@ -32,20 +32,30 @@ public class Base64Encoder extends BytesToString {
 	}
 	
 	@Override
-	public void close() throws IOException {
+	public void flush() throws IOException {
 		switch (count) {
 		case 2:
 			writer.append(chars[(cache[0] & 255) >> 2]);
 			writer.append(chars[(((cache[0] & 255) << 4) | ((cache[1] & 255) >> 4)) & 63]);
 			writer.append(chars[((cache[1] & 255) << 2) & 63]);
 			writer.append('=');
+			break;
 		case 1:
 			writer.append(chars[(cache[0] & 255) >> 2]);
 			writer.append(chars[((cache[0] & 255) << 4) & 63]);
 			writer.append('=');
 			writer.append('=');
+			break;
 		}
 		
+		count = 0;
+		
+		writer.flush();
+	}
+	
+	@Override
+	public void close() throws IOException {
+		flush();
 		writer.close();
 	}
 	

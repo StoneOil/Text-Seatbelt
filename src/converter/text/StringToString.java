@@ -4,12 +4,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
 import converter.Main;
+import converter.MorseDecoder;
+import converter.MorseEncoder;
 import converter.command.Arguments;
 import converter.command.Command;
 import converter.command.CommandBuilder;
@@ -43,7 +44,13 @@ public abstract class StringToString extends Writer {
 			StringToString ins = getInstance(writer);
 			
 			if (a.getFlag("-i") == null) {
-				ins.write(Main.getInput("请输入需要转换的数据："));
+				if (a.getArgument("content") == null)
+					ins.write(Main.getInput("请输入需要转换的数据："));
+				else
+					if (a.getArgument("content").startsWith(";"))
+						ins.write(a.getArgument("content").substring(1));
+					else
+						ins.write(a.getArgument("content"));
 			}
 			else {
 				Reader reader = new InputStreamReader(
@@ -52,12 +59,14 @@ public abstract class StringToString extends Writer {
 				
 				int i;
 				while ((i = reader.read()) != -1)
-					ins.write(i);
+					if (i != '\r' && i != '\n')
+						ins.write(i);
 				
 				reader.close();
 			}
 			
-			ins.close();
+			ins.flush();
+			System.out.println();
 		}
 	}
 	
@@ -65,6 +74,14 @@ public abstract class StringToString extends Writer {
 	
 	public StringToString(Writer writer) {
 		this.writer = writer;
+	}
+
+	public static Executer getExecuter(String name) {
+		if (name.equalsIgnoreCase("more"))
+			return MorseEncoder.Executer.INSTANCE;
+		if (name.equalsIgnoreCase("mord"))
+			return MorseDecoder.Executer.INSTANCE;
+		return null;
 	}
 
 	@Override

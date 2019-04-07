@@ -39,11 +39,11 @@ public class Command {
 		
 		if (latestOptional) {
 			if (count < this.args.size() - 1)
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("命令语法不正确");
 		}
 		else {
 			if (count < this.args.size())
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("命令语法不正确");
 		}
 		
 		return a;
@@ -53,29 +53,29 @@ public class Command {
 		if (count < args.size())
 			a.args.put(args.get(count++), next);
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("命令语法不正确");
 	}
 
 	private void flag(Queue<String> qargs, String next, Arguments a) {
-		Optional<Flag> op = flags.stream().filter(f -> f.name == next).findFirst();
+		Optional<Flag> op = flags.stream().filter(f -> f.name.equals(next)).findFirst();
 		
 		if (op.isPresent()) {
 			String[] array = new String[op.get().after];
 			
 			for (int i = 0; i < array.length; i++) {
 				if (qargs.isEmpty())
-					throw new IllegalArgumentException();
+					throw new IllegalArgumentException("命令语法不正确");
 				
 				String str = qargs.remove();
-				if (str.startsWith("-") || str.startsWith("/"))
-					throw new IllegalArgumentException();
+				if (str.startsWith("-")/* || str.startsWith("/")*/)
+					throw new IllegalArgumentException("命令语法不正确");
 				
 				array[i] = str;
 			}
 			
 			a.flags.put(next, new ArgumentFlag(next, array));
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("命令语法不正确");
 		}
 	}
 }

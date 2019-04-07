@@ -43,12 +43,17 @@ public class Base64Decoder extends StringToBytes {
 
 	@Override
 	public void close() throws IOException {
-		if (count != 0)
-			throw new IllegalArgumentException("参数不是正确的base64编码");
-		
+		flush();
 		out.close();
 	}
 
+	@Override
+	public void flush() throws IOException {
+		if (count != 0)
+			throw new IllegalArgumentException("参数不是正确的base64编码");
+		out.flush();
+	}
+	
 	private void parse() throws IOException {
 		int pos = 4;
 		
@@ -67,7 +72,7 @@ public class Base64Decoder extends StringToBytes {
 		
 		switch (pos) {
 		case 4:
-			out.write((cache2[0] << 2) | (cache2[1] >> 6));
+			out.write((cache2[0] << 2) | (cache2[1] >> 4));
 			out.write((cache2[1] << 4) | (cache2[2] >> 2));
 			out.write((cache2[2] << 6) | cache2[3]);
 			break;
@@ -75,7 +80,7 @@ public class Base64Decoder extends StringToBytes {
 			out.write((cache2[0] << 2) | (cache2[1] >> 4));
 			break;
 		case 3:
-			out.write((cache2[0] << 2) | (cache2[1] >> 6));
+			out.write((cache2[0] << 2) | (cache2[1] >> 4));
 			out.write((cache2[1] << 4) | (cache2[2] >> 2));
 			break;
 		default:

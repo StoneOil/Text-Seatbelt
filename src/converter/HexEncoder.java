@@ -28,6 +28,11 @@ public class HexEncoder extends BytesToString {
 		writer.close();
 	}
 
+	@Override
+	public void flush() throws IOException {
+		writer.flush();
+	}
+
 	public static class Executer extends BytesToString.Executer {
 		public static final Executer INSTANCE = new Executer();
 

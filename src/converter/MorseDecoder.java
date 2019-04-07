@@ -46,11 +46,26 @@ public class MorseDecoder extends StringToString {
 
 	@Override
 	public void close() throws IOException {
-		if (count != 0)
-			throw new IllegalArgumentException("请按照帮助文档指定的格式输入莫尔斯电码");
-		
+		flush();
 		writer.close();
 	}
-
 	
+	@Override
+	public void flush() throws IOException {
+		if (count != 0)
+			parse();
+		else
+			throw new IllegalArgumentException("请按照帮助文档指定的格式输入莫尔斯电码");
+		writer.flush();
+	}
+
+	public static class Executer extends StringToString.Executer {
+
+		public static final Executer INSTANCE = new Executer();
+
+		@Override
+		public StringToString getInstance(Writer writer) {
+			return new MorseDecoder(writer);
+		}
+	}
 }
