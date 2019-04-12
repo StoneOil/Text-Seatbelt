@@ -59,6 +59,7 @@ public class Main {
 		System.out.println("  mord                译码莫尔斯电码（仅英文）");
 		System.out.println("                      注意：译码前请替换字符。短信号为“.”，");
 		System.out.println("                      长信号为“-”，分隔符为“/”。");
+		System.out.println("                      如果将莫尔斯电码作为参数输入，请在参数前加“;”");
 		System.out.println("  以下是可选参数");
 		System.out.println("  -i <file> <charset> 以指定编码从指定文件输入");
 		System.out.println("  -o <file> <charset> 以指定编码向指定文件输出");
